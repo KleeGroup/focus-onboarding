@@ -1,11 +1,15 @@
 import {intersection, mapValues, toPairs} from "lodash";
 import {computed, observable} from "mobx";
-import {Step} from "react-joyride";
+import {Step as JoyrideStep} from "react-joyride";
 
 export type JoyrideType = "continuous" | "single" | undefined;
 
 export interface OnboardingActivated {
     [key: string]: boolean;
+}
+
+export interface Step extends JoyrideStep {
+    isFacultative: boolean;
 }
 
 export interface OnboardingConfig {
@@ -40,12 +44,24 @@ export class OnboardingStore {
 
     @computed
     get steps() {
-        return this.currentScope ? this.onboardingConfig[this.currentScope] : [];
+        if (this.currentScope && this.onboardingActivated[this.currentScope]) {
+            const stepArray = this.onboardingConfig[this.currentScope];
+            const steps: Step[] = [];
+            stepArray.forEach((step, idx) => {
+                const readySteps = this.onboardingReady[this.currentScope];
+
+                if ((step.isFacultative !== true && readySteps[idx] !== false) || (step.isFacultative === true && readySteps[idx] === true)) {
+                    steps.push(step);
+                }
+            });
+            return steps;
+        }
+        return [];
     }
 
     @computed
     get currentScope() {
-        const readyScopes = toPairs(this.onboardingReady).filter(scope => scope[1].every(Boolean)).map(scope => scope[0]);
+        const readyScopes = toPairs(this.onboardingReady).filter(([scope, list]: [string, boolean[]]) => list.every((item, idx) => item || this.onboardingConfig[scope][idx].isFacultative)).map(scope => scope[0]);
         const activatedScopes = toPairs(this.onboardingActivated).filter(scope => scope[1]).map(scope => scope[0]);
         const scopes = intersection(readyScopes, activatedScopes);
         return this.scopePriority && intersection(this.scopePriority, scopes)[0] || scopes[0];
