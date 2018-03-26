@@ -9,7 +9,7 @@ export interface OnboardingActivated {
 }
 
 export interface Step extends JoyrideStep {
-    isFacultative: boolean;
+    isOptional: boolean;
 }
 
 export interface OnboardingConfig {
@@ -50,7 +50,7 @@ export class OnboardingStore {
             stepArray.forEach((step, idx) => {
                 const readySteps = this.onboardingReady[this.currentScope];
 
-                if ((step.isFacultative !== true && readySteps[idx] !== false) || (step.isFacultative === true && readySteps[idx] === true)) {
+                if ((step.isOptional !== true && readySteps[idx] !== false) || (step.isOptional === true && readySteps[idx] === true)) {
                     steps.push(step);
                 }
             });
@@ -61,7 +61,7 @@ export class OnboardingStore {
 
     @computed
     get currentScope() {
-        const readyScopes = toPairs(this.onboardingReady).filter(([scope, list]: [string, boolean[]]) => list.every((item, idx) => item || this.onboardingConfig[scope][idx].isFacultative)).map(scope => scope[0]);
+        const readyScopes = toPairs(this.onboardingReady).filter(([scope, list]: [string, boolean[]]) => list.every((item, idx) => item || this.onboardingConfig[scope][idx].isOptional)).map(scope => scope[0]);
         const activatedScopes = toPairs(this.onboardingActivated).filter(scope => scope[1]).map(scope => scope[0]);
         const scopes = intersection(readyScopes, activatedScopes);
         return this.scopePriority && intersection(this.scopePriority, scopes)[0] || scopes[0];
