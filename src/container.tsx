@@ -11,6 +11,7 @@ import {onboardingStore} from "./store";
 export interface OnboardingContainerProps {
     callback?: (scope: string, props: any) => void;
     i18nPrefix?: string;
+    autoStart?: boolean;
 }
 
 @autobind
@@ -56,11 +57,12 @@ export class OnboardingContainer extends React.Component<OnboardingContainerProp
 
     render() {
         const {steps, joyrideType, scrollToSteps} = onboardingStore;
-        const {i18nPrefix = "focus"} = this.props;
+        const {i18nPrefix = "focus", autoStart} = this.props;
         return (
             <Joyride
                 ref={joyride => this.joyride = joyride}
                 run={!!steps.length}
+                autoStart={!!steps.length && autoStart}
                 showSkipButton={true}
                 showStepsProgress={true}
                 type={joyrideType}
