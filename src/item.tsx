@@ -8,7 +8,7 @@ export interface OnboardingItemProps {
     steps: {[scope: string]: number | number[]};
 }
 
-export class OnboardingItem extends React.Component<OnboardingItemProps, void> {
+export class OnboardingItem extends React.Component<OnboardingItemProps> {
 
     componentDidMount() {
         this.checkIfComponentIsReady(true);
@@ -20,7 +20,7 @@ export class OnboardingItem extends React.Component<OnboardingItemProps, void> {
 
     @action
     checkIfComponentIsReady(isReady: boolean) {
-        toPairs(this.props.steps).forEach(([scope, steps]: [string, number | number[]]) => {
+        toPairs(this.props.steps).forEach(([scope, steps]) => {
             if (isArray(steps)) {
                 steps.forEach(step => onboardingStore.onboardingReady[scope][step - 1] = isReady);
             } else {

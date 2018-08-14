@@ -49,7 +49,6 @@ export class OnboardingStore {
             const steps: Step[] = [];
             stepArray.forEach((step, idx) => {
                 const readySteps = this.onboardingReady[this.currentScope];
-
                 if ((step.isOptional !== true && readySteps[idx] !== false) || (step.isOptional === true && readySteps[idx] === true)) {
                     steps.push(step);
                 }
