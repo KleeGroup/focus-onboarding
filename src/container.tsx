@@ -45,18 +45,18 @@ export class OnboardingContainer extends React.Component<OnboardingContainerProp
     }
 
     render() {
-        const {steps, joyrideType, scrollToSteps} = onboardingStore;
+        const {steps, joyrideType, scrollToSteps, currentScope} = onboardingStore;
         const {i18nPrefix = "focus", autoStart} = this.props;
         return (
             <Joyride
-                ref={joyride => this.joyride = joyride}
+                ref={joyride => (this.joyride = joyride)}
                 run={!!steps.length}
                 autoStart={!!steps.length && autoStart}
                 showSkipButton={true}
                 showStepsProgress={true}
                 type={joyrideType}
                 showOverlay={true}
-                steps={steps}
+                steps={steps.map((step, idx) => ({...step, target: "", selector: `.${currentScope}-${idx + 1}`}))}
                 scrollToSteps={scrollToSteps}
                 callback={this.callback}
                 locale={{

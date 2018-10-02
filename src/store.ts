@@ -1,6 +1,6 @@
 import {intersection, mapValues, toPairs} from "lodash";
 import {computed, observable} from "mobx";
-import {Step as JoyrideStep} from "react-joyride";
+import {StepStyles} from "react-joyride";
 
 export type JoyrideType = "continuous" | "single" | undefined;
 
@@ -8,8 +8,15 @@ export interface OnboardingActivated {
     [key: string]: boolean;
 }
 
-export interface Step extends JoyrideStep {
-    isOptional: boolean;
+export interface Step {
+    title?: string;
+    text?: React.ReactNode;
+    position?: "top" | "top-left" | "top-right" | "bottom" | "bottom-left" | "bottom-right" | "right" | "left";
+    type?: "click" | "hover";
+    isFixed?: boolean;
+    allowClicksThruHole?: boolean;
+    style?: StepStyles;
+    isOptional?: boolean;
 }
 
 export interface OnboardingConfig {
@@ -22,7 +29,6 @@ export interface OnboardingReady {
 
 /** Store for simple objet (not entity store.) */
 export class OnboardingStore {
-
     @observable
     joyrideType: JoyrideType = "continuous";
 
@@ -49,7 +55,10 @@ export class OnboardingStore {
             const steps: Step[] = [];
             stepArray.forEach((step, idx) => {
                 const readySteps = this.onboardingReady[this.currentScope];
-                if ((step.isOptional !== true && readySteps[idx] !== false) || (step.isOptional === true && readySteps[idx] === true)) {
+                if (
+                    (step.isOptional !== true && readySteps[idx] !== false) ||
+                    (step.isOptional === true && readySteps[idx] === true)
+                ) {
                     steps.push(step);
                 }
             });
@@ -60,10 +69,16 @@ export class OnboardingStore {
 
     @computed
     get currentScope() {
-        const readyScopes = toPairs(this.onboardingReady).filter(([scope, list]: [string, boolean[]]) => list.every((item, idx) => item || this.onboardingConfig[scope][idx].isOptional)).map(scope => scope[0]);
-        const activatedScopes = toPairs(this.onboardingActivated).filter(scope => scope[1]).map(scope => scope[0]);
+        const readyScopes = toPairs(this.onboardingReady)
+            .filter(([scope, list]: [string, boolean[]]) =>
+                list.every((item, idx) => item || this.onboardingConfig[scope][idx].isOptional || false)
+            )
+            .map(scope => scope[0]);
+        const activatedScopes = toPairs(this.onboardingActivated)
+            .filter(scope => scope[1])
+            .map(scope => scope[0]);
         const scopes = intersection(readyScopes, activatedScopes);
-        return this.scopePriority && intersection(this.scopePriority, scopes)[0] || scopes[0];
+        return (this.scopePriority && intersection(this.scopePriority, scopes)[0]) || scopes[0];
     }
 
     init(onboardingConfig: OnboardingConfig, onboardingActivated?: OnboardingActivated) {

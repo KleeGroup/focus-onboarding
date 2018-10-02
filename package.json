@@ -1,45 +1,45 @@
 {
-  "name": "focus-onboarding",
-  "version": "0.2.2",
-  "description": "Extension d'onboarding (basée sur React-Joyride)",
-  "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/KleeGroup/focus-onboarding.git"
-  },
-  "author": "damien.frikha@kleegroup.com",
-  "license": "MIT",
-  "homepage": "https://github.com/KleeGroup/focus-onboarding",
-  "scripts": {
-    "prepublishOnly": "tsc --outDir ./",
-    "postpublish": "rm -rf container.js container.d.ts index.js index.d.ts item.js item.d.ts store.js store.d.ts user.js && rm -rf translation",
-    "start": "tsc",
-    "tslint": "tslint --project tsconfig.json --type-check --force"
-  },
-  "dependencies": {
-    "@types/react-joyride": "1.11.1",
-    "react-joyride": "1.11.4"
-  },
-  "peerDependencies": {
-    "i18next": ">= 1.x",
-    "lodash": ">= 4.x",
-    "mobx": ">= 3.x",
-    "mobx-react": ">= 4.x",
-    "react": ">= 15.x",
-    "tslib": ">= 1.x"
-  },
-  "devDependencies": {
-    "@types/i18next": "8.4.4",
-    "@types/lodash": "4.14.116",
-    "@types/react": "16.4.10",
-    "i18next": "11.6.0",
-    "lodash": "4.17.10",
-    "mobx": "4.3.1",
-    "mobx-react": "5.2.5",
-    "react": "16.4.2",
-    "react-dom": "16.4.2",
-    "tslib": "1.9.3",
-    "tslint": "5.11.0",
-    "typescript": "3.0.1"
-  }
+    "name": "focus-onboarding",
+    "version": "0.3.0",
+    "description": "Extension d'onboarding (basée sur React-Joyride)",
+    "main": "index.js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/KleeGroup/focus-onboarding.git"
+    },
+    "author": "damien.frikha@kleegroup.com",
+    "license": "MIT",
+    "homepage": "https://github.com/KleeGroup/focus-onboarding",
+    "scripts": {
+        "prepublishOnly": "tsc --outDir ./",
+        "postpublish": "rm -rf container.js container.d.ts index.js index.d.ts item.js item.d.ts store.js store.d.ts user.js && rm -rf translation",
+        "start": "tsc",
+        "tslint": "tslint --project tsconfig.json --type-check --force"
+    },
+    "dependencies": {
+        "@types/react-joyride": "1.11.1",
+        "react-joyride": "1.11.4"
+    },
+    "peerDependencies": {
+        "i18next": ">= 1.x",
+        "lodash": ">= 4.x",
+        "mobx": ">= 3.x",
+        "mobx-react": ">= 4.x",
+        "react": ">= 15.x",
+        "tslib": ">= 1.x"
+    },
+    "devDependencies": {
+        "@types/i18next": "11.9.0",
+        "@types/lodash": "4.14.116",
+        "@types/react": "16.4.14",
+        "i18next": "11.9.0",
+        "lodash": "4.17.11",
+        "mobx": "5.5.0",
+        "mobx-react": "5.2.8",
+        "react": "16.5.2",
+        "react-dom": "16.5.2",
+        "tslib": "1.9.3",
+        "tslint": "5.11.0",
+        "typescript": "3.1.1"
+    }
 }
