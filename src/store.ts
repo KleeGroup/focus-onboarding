@@ -17,6 +17,7 @@ export interface Step {
     allowClicksThruHole?: boolean;
     style?: StepStyles;
     isOptional?: boolean;
+    selector?: string;
 }
 
 export interface OnboardingConfig {
@@ -52,14 +53,14 @@ export class OnboardingStore {
     get steps() {
         if (this.currentScope && this.onboardingActivated[this.currentScope]) {
             const stepArray = this.onboardingConfig[this.currentScope];
-            const steps: Step[] = [];
+            const steps: (Step & {idx: number})[] = [];
             stepArray.forEach((step, idx) => {
                 const readySteps = this.onboardingReady[this.currentScope];
                 if (
                     (step.isOptional !== true && readySteps[idx] !== false) ||
                     (step.isOptional === true && readySteps[idx] === true)
                 ) {
-                    steps.push(step);
+                    steps.push({...step, idx});
                 }
             });
             return steps;

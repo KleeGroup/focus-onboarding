@@ -8,7 +8,7 @@ export interface OnboardingItemProps {
     steps: {[scope: string]: number | number[]};
 }
 
-export class OnboardingItem extends React.Component<OnboardingItemProps> {
+export class OnboardingItem extends React.Component<OnboardingItemProps, {}> {
     componentDidMount() {
         this.checkIfComponentIsReady(true);
     }

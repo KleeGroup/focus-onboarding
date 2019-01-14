@@ -1,6 +1,6 @@
 {
     "name": "focus-onboarding",
-    "version": "0.3.0",
+    "version": "0.3.2",
     "description": "Extension d'onboarding (basée sur React-Joyride)",
     "main": "index.js",
     "repository": {

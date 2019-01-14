@@ -13,7 +13,7 @@ export interface OnboardingContainerProps {
 }
 
 @observer
-export class OnboardingContainer extends React.Component<OnboardingContainerProps> {
+export class OnboardingContainer extends React.Component<OnboardingContainerProps, {}> {
     joyride: Joyride | null;
     joyrideUpdater: IReactionDisposer;
 
@@ -56,7 +56,11 @@ export class OnboardingContainer extends React.Component<OnboardingContainerProp
                 showStepsProgress={true}
                 type={joyrideType}
                 showOverlay={true}
-                steps={steps.map((step, idx) => ({...step, target: "", selector: `.${currentScope}-${idx + 1}`}))}
+                steps={steps.map(step => ({
+                    ...step,
+                    target: "",
+                    selector: step.selector ? step.selector : `.${currentScope}-${step.idx + 1}`
+                }))}
                 scrollToSteps={scrollToSteps}
                 callback={this.callback}
                 locale={{
